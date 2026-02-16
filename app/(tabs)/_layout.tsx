@@ -7,7 +7,7 @@ import { HapticTab } from '@/components/haptic-tab';
 import { BrandColors, Colors, Shadows } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-type TabIconName = 'home' | 'bag' | 'information-circle' | 'mail';
+type TabIconName = 'home' | 'bag' | 'information-circle';
 
 interface TabIconProps {
   name: TabIconName;
@@ -84,19 +84,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabIcon name="information-circle" color={color} focused={focused} />
           ),
-        }}
-      />
-      {/* Hide Contact and Explore tabs */}
-      <Tabs.Screen
-        name="contact"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          href: null,
         }}
       />
     </Tabs>
