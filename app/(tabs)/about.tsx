@@ -36,7 +36,10 @@ const AboutScreen = () => {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
+      >
         {/* Header */}
         <View style={[styles.header, { paddingTop: insets.top + Spacing.sm }]}>
           <Text style={[styles.headerTitle, { color: colors.text }]}>About Us</Text>
@@ -436,7 +439,7 @@ const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     paddingVertical: Spacing.xxl,
-    paddingBottom: 120,
+    // paddingBottom is set dynamically with insets in ScrollView
   },
   footerText: {
     fontSize: FontSizes.md,

@@ -136,7 +136,7 @@ const HomeScreen = () => {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 120 }]}
       >
         {/* Hero Section */}
         <View style={styles.heroSection}>
@@ -349,7 +349,7 @@ const HomeScreen = () => {
 
       {/* Floating Contact Button */}
       <TouchableOpacity
-        style={styles.fab}
+        style={[styles.fab, { bottom: insets.bottom + 110 }]}
         onPress={() => setShowContactForm(true)}
         accessibilityLabel="Contact Us"
         accessibilityRole="button"
@@ -368,7 +368,7 @@ const HomeScreen = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.modalOverlay}
         >
-          <View style={[styles.modalContainer, { backgroundColor: colors.background }]}>
+          <View style={[styles.modalContainer, { backgroundColor: colors.background, paddingBottom: insets.bottom + Spacing.lg }]}>
             {/* Modal Header */}
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: colors.text }]}>Contact Us</Text>
@@ -381,7 +381,10 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView 
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: Spacing.xl }}
+            >
               {/* Form Fields */}
               <View style={styles.formGroup}>
                 <Text style={[styles.label, { color: colors.text }]}>Name *</Text>
@@ -509,7 +512,7 @@ const styles = StyleSheet.create({
     color: BrandColors.white,
   },
   scrollContent: {
-    paddingBottom: 120,
+    // paddingBottom is set dynamically with insets
   },
   heroSection: {
     height: 450,
@@ -643,7 +646,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: 120,
+    // bottom is set dynamically with insets
     right: 20,
     width: 60,
     height: 60,

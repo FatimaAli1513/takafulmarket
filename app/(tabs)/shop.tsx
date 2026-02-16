@@ -231,7 +231,7 @@ const ShopScreen = () => {
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        contentContainerStyle={styles.productsGrid}
+        contentContainerStyle={[styles.productsGrid, { paddingBottom: insets.bottom + 120 }]}
         columnWrapperStyle={styles.productRow}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   },
   productsGrid: {
     paddingHorizontal: Spacing.lg,
-    paddingBottom: 120,
+    // paddingBottom is set dynamically with insets
   },
   productRow: {
     justifyContent: 'space-between',
