@@ -1,7 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { BrandColors, Colors, Shadows } from '@/constants/theme';
@@ -17,7 +17,7 @@ interface TabIconProps {
 
 const TabIcon: React.FC<TabIconProps> = ({ name, color, focused }) => {
   const iconName = focused ? name : `${name}-outline` as keyof typeof Ionicons.glyphMap;
-  
+
   return (
     <View style={[styles.iconContainer, focused && styles.iconContainerFocused]}>
       <Ionicons name={iconName} size={24} color={color} />
@@ -40,12 +40,12 @@ export default function TabLayout() {
           backgroundColor: colors.background,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          borderRadius: 24,
-          marginHorizontal: 16,
-          marginBottom: Platform.OS === 'ios' ? 28 : 20,
-          height: Platform.OS === 'ios' ? 70 : 65,
-          paddingTop: 8,
-          paddingBottom: Platform.OS === 'ios' ? 12 : 10,
+          borderRadius: 28,
+          marginHorizontal: 20,
+          marginBottom: 50,
+          height: Platform.OS === 'ios' ? 72 : 68,
+          paddingTop: 10,
+          paddingBottom: Platform.OS === 'ios' ? 14 : 12,
           position: 'absolute',
           bottom: 0,
           left: 0,
