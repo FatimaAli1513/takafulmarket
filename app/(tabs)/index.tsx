@@ -38,6 +38,7 @@ import {
   getNewArrivals,
   BRAND_PROMISES,
 } from '@/constants/data';
+import { useCart } from '@/context/CartContext';
 
 const { width } = Dimensions.get('window');
 
@@ -45,9 +46,11 @@ const HomeScreen = () => {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const insets = useSafeAreaInsets();
+  const { addToCart, getCartItemCount } = useCart();
 
   const bestsellers = getBestsellers();
   const newArrivals = getNewArrivals();
+  const cartItemCount = getCartItemCount();
 
   const handleShopNow = () => {
     router.push('/(tabs)/shop');
@@ -62,7 +65,12 @@ const HomeScreen = () => {
   };
 
   const handleAddToCart = (productId: string) => {
+    addToCart(productId);
     Alert.alert('Added to Cart', 'Product added to cart successfully!');
+  };
+
+  const handleOpenCart = () => {
+    router.push('/cart');
   };
 
   const handleViewAllBestsellers = () => {
@@ -83,25 +91,19 @@ const HomeScreen = () => {
             Takaful<Text style={styles.brandAccent}>Market</Text>
           </Text>
         </View>
-        <View style={styles.headerActions}>
-          <TouchableOpacity
-            style={styles.iconButton}
-            accessibilityLabel="Search"
-            accessibilityRole="button"
-          >
-            <Ionicons name="search-outline" size={24} color={colors.text} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.iconButton}
-            accessibilityLabel="Cart"
-            accessibilityRole="button"
-          >
-            <Ionicons name="bag-outline" size={24} color={colors.text} />
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={handleOpenCart}
+          accessibilityLabel="Cart"
+          accessibilityRole="button"
+        >
+          <Ionicons name="bag-outline" size={24} color={colors.text} />
+          {cartItemCount > 0 && (
             <View style={styles.cartBadge}>
-              <Text style={styles.cartBadgeText}>2</Text>
+              <Text style={styles.cartBadgeText}>{cartItemCount}</Text>
             </View>
-          </TouchableOpacity>
-        </View>
+          )}
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -355,11 +357,6 @@ const styles = StyleSheet.create({
   },
   brandAccent: {
     color: BrandColors.gold,
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.sm,
   },
   iconButton: {
     width: 44,

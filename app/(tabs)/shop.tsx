@@ -13,6 +13,7 @@ import {
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 import { Button } from '@/components/ui/Button';
 import {
@@ -26,6 +27,7 @@ import {
 } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { PRODUCTS, CATEGORIES, Product, getProductsByCategory } from '@/constants/data';
+import { useCart } from '@/context/CartContext';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - Spacing.lg * 3) / 2;
@@ -34,9 +36,9 @@ const ShopScreen = () => {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const insets = useSafeAreaInsets();
+  const { addToCart, getCartItemCount } = useCart();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const filteredProducts = useMemo(() => {
     return getProductsByCategory(selectedCategory as Product['category'] | 'all');
@@ -58,8 +60,15 @@ const ShopScreen = () => {
   };
 
   const handleAddToCart = (productId: string) => {
+    addToCart(productId);
     Alert.alert('Success', 'Product added to cart!');
   };
+
+  const handleOpenCart = () => {
+    router.push('/cart');
+  };
+
+  const cartItemCount = getCartItemCount();
 
   const renderCategoryItem = (category: { id: string; name: string; icon: string }) => {
     const isSelected = selectedCategory === category.id;
@@ -182,14 +191,18 @@ const ShopScreen = () => {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + Spacing.sm }]}>
         <Text style={[styles.headerTitle, { color: colors.text }]}>Shop</Text>
-        <View style={styles.headerActions}>
-          <TouchableOpacity style={styles.iconButton} accessibilityLabel="Search">
-            <Ionicons name="search-outline" size={24} color={colors.text} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton} accessibilityLabel="Filter">
-            <Ionicons name="options-outline" size={24} color={colors.text} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.cartButton}
+          onPress={handleOpenCart}
+          accessibilityLabel="Cart"
+        >
+          <Ionicons name="bag-outline" size={24} color={colors.text} />
+          {cartItemCount > 0 && (
+            <View style={styles.cartBadge}>
+              <Text style={styles.cartBadgeText}>{cartItemCount}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
       </View>
 
       {/* Categories */}
@@ -251,16 +264,30 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.xxxl,
     fontWeight: FontWeights.bold,
   },
-  headerActions: {
-    flexDirection: 'row',
-    gap: Spacing.sm,
-  },
-  iconButton: {
+  cartButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: BrandColors.burgundy,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  cartBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: BrandColors.white,
   },
   categoriesContainer: {
     marginBottom: Spacing.md,

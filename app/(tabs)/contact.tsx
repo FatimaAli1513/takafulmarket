@@ -58,12 +58,6 @@ const CONTACT_INFO: ContactInfo[] = [
   },
 ];
 
-const SOCIAL_LINKS = [
-  { icon: 'logo-facebook', name: 'Facebook', color: '#1877F2' },
-  { icon: 'logo-instagram', name: 'Instagram', color: '#E4405F' },
-  { icon: 'logo-whatsapp', name: 'WhatsApp', color: '#25D366' },
-  { icon: 'logo-twitter', name: 'Twitter', color: '#1DA1F2' },
-];
 
 const ContactScreen = () => {
   const colorScheme = useColorScheme();
@@ -152,23 +146,6 @@ const ContactScreen = () => {
                   >
                     {info.value}
                   </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-
-          {/* Social Links */}
-          <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>Follow Us</Text>
-            <View style={styles.socialContainer}>
-              {SOCIAL_LINKS.map((social, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[styles.socialButton, { backgroundColor: social.color }]}
-                  accessibilityLabel={`Follow us on ${social.name}`}
-                  accessibilityRole="button"
-                >
-                  <Ionicons name={social.icon as any} size={24} color={BrandColors.white} />
                 </TouchableOpacity>
               ))}
             </View>
@@ -372,19 +349,6 @@ const styles = StyleSheet.create({
   contactValue: {
     fontSize: FontSizes.sm,
     textAlign: 'center',
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-  },
-  socialButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   formContainer: {
     marginHorizontal: Spacing.lg,

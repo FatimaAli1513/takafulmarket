@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { BrandColors, Colors, Shadows } from '@/constants/theme';
@@ -40,12 +40,13 @@ export default function TabLayout() {
           backgroundColor: colors.background,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          borderRadius: 28,
-          marginHorizontal: 20,
-          marginBottom: 50,
-          height: Platform.OS === 'ios' ? 72 : 68,
-          paddingTop: 10,
-          paddingBottom: Platform.OS === 'ios' ? 14 : 12,
+          borderRadius: 32,
+          marginHorizontal: 24,
+          marginBottom: 24,
+          height: 70,
+          paddingTop: 12,
+          paddingBottom: 12,
+          paddingHorizontal: 8,
           position: 'absolute',
           bottom: 0,
           left: 0,
