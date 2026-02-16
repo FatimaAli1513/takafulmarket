@@ -29,7 +29,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, descripti
       accessibilityLabel={`${title}: ${description}`}
     >
       <View style={styles.iconContainer}>
-        <Ionicons name={icon} size={32} color={BrandColors.gold} />
+        <Ionicons name={icon} size={32} color={BrandColors.primary} />
       </View>
       <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
       <Text style={[styles.description, { color: colors.textSecondary }]}>{description}</Text>

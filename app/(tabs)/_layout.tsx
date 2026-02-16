@@ -32,7 +32,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: BrandColors.gold,
+        tabBarActiveTintColor: BrandColors.primary,
         tabBarInactiveTintColor: colors.tabIconDefault,
         headerShown: false,
         tabBarButton: HapticTab,
@@ -112,6 +112,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   iconContainerFocused: {
-    backgroundColor: `${BrandColors.gold}20`,
+    backgroundColor: `${BrandColors.primary}20`,
   },
 });

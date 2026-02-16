@@ -74,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               key={index}
               name={index < Math.floor(rating) ? 'star' : 'star-outline'}
               size={14}
-              color={BrandColors.gold}
+              color={BrandColors.amber}
             />
           ))}
           <Text style={[styles.ratingText, { color: colors.textSecondary }]}>
@@ -98,7 +98,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             accessibilityLabel="Add to cart"
             accessibilityRole="button"
           >
-            <Ionicons name="bag-add" size={20} color={BrandColors.primary} />
+            <Ionicons name="bag-add" size={20} color={BrandColors.white} />
           </TouchableOpacity>
         </View>
       </View>
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: Spacing.sm,
     left: Spacing.sm,
-    backgroundColor: BrandColors.gold,
+    backgroundColor: BrandColors.primary,
     paddingVertical: 2,
     paddingHorizontal: Spacing.sm,
     borderRadius: BorderRadius.sm,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   newBadgeText: {
     fontSize: FontSizes.xs,
     fontWeight: FontWeights.bold,
-    color: BrandColors.primary,
+    color: BrandColors.white,
   },
   discountBadge: {
     position: 'absolute',
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: FontSizes.md,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.primary,
   },
   originalPrice: {
     fontSize: FontSizes.xs,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: BrandColors.gold,
+    backgroundColor: BrandColors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },

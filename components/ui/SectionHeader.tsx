@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
   viewAll: {
     fontSize: FontSizes.sm,
     fontWeight: FontWeights.semibold,
-    color: BrandColors.gold,
+    color: BrandColors.primary,
   },
 });

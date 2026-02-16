@@ -65,7 +65,7 @@ const AboutScreen = () => {
         <View style={styles.section}>
           <View style={styles.storyContainer}>
             <View style={styles.iconCircle}>
-              <Ionicons name="sparkles" size={32} color={BrandColors.gold} />
+              <Ionicons name="sparkles" size={32} color={BrandColors.primary} />
             </View>
             <Text style={[styles.storyTitle, { color: colors.text }]}>Our Story</Text>
             <Text style={[styles.storyText, { color: colors.textSecondary }]}>
@@ -161,7 +161,7 @@ const AboutScreen = () => {
                           key={index}
                           name="star"
                           size={14}
-                          color={BrandColors.gold}
+                          color={BrandColors.amber}
                         />
                       ))}
                     </View>
@@ -209,7 +209,7 @@ const AboutScreen = () => {
                 style={[styles.reasonItem, { borderColor: colors.border }]}
               >
                 <View style={styles.reasonIcon}>
-                  <Ionicons name={reason.icon as any} size={24} color={BrandColors.gold} />
+                  <Ionicons name={reason.icon as any} size={24} color={BrandColors.primary} />
                 </View>
                 <View style={styles.reasonContent}>
                   <Text style={[styles.reasonTitle, { color: colors.text }]}>
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   heroQuote: {
     fontSize: FontSizes.xxl,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.amber,
     fontStyle: 'italic',
   },
   section: {
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   brandHighlight: {
-    color: BrandColors.gold,
+    color: BrandColors.primary,
     fontWeight: FontWeights.bold,
   },
   missionSection: {
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   missionTitle: {
     fontSize: FontSizes.xxl,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.amber,
     marginBottom: Spacing.md,
   },
   missionText: {
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FontSizes.xxl,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.amber,
   },
   statLabel: {
     fontSize: FontSizes.sm,
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: BrandColors.gold,
+    backgroundColor: BrandColors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: Spacing.md,

@@ -5,56 +5,69 @@
 
 import { Platform } from 'react-native';
 
-// Brand Colors
+// Brand Colors - Premium Luxury Theme (Brown + White)
 export const BrandColors = {
-  // Primary - Rich Black & Gold
-  primary: '#1A1A1A',
-  primaryDark: '#0D0D0D',
-  gold: '#D4AF37',
-  goldLight: '#F4E4BA',
-  goldDark: '#B8960C',
+  // Primary - Deep Brown (Main Brand Color)
+  primary: '#4A2C2A',      // Deep warm brown (main accent)
+  primaryDark: '#2C1810',  // Darker brown
+  primaryLight: '#5D3D3A', // Lighter brown
+  
+  // Accent Colors
+  gold: '#4A2C2A',         // Using brown instead of gold
+  goldLight: '#8B6F6D',    // Muted brown
+  goldDark: '#3D2320',     // Dark brown
+  
+  // Brown Shades (Earthy tones from image)
+  chocolate: '#4A2C2A',    // Rich chocolate brown
+  coffee: '#6B4842',       // Coffee brown
+  leather: '#8B6B61',      // Leather brown
+  tan: '#A68B7B',          // Tan/light brown
   
   // Secondary
-  cream: '#FFF8E7',
-  ivory: '#FFFFF0',
-  charcoal: '#2D2D2D',
+  cream: '#FDF8F5',        // Warm cream
+  ivory: '#FAF5F2',        // Ivory white
+  charcoal: '#2D2D2D',     // Deep charcoal (belt color)
   
   // Accent
-  burgundy: '#800020',
-  bronze: '#CD7F32',
+  burgundy: '#4A2C2A',     // Brown accent
+  bronze: '#8B6B61',       // Bronze/leather
   
   // Neutrals
-  white: '#FFFFFF',
-  offWhite: '#F9F9F9',
-  lightGray: '#E5E5E5',
-  gray: '#888888',
-  darkGray: '#444444',
-  black: '#000000',
+  white: '#FFFFFF',        // Crisp white (for text)
+  offWhite: '#FAFAFA',
+  lightGray: '#E8E0DC',
+  gray: '#7A6A62',
+  darkGray: '#4A4039',
+  black: '#1A1512',
+  
+  // Warm Amber Glow
+  amber: '#D4A574',        // Warm amber highlight
+  warmLight: '#F5E6D3',    // Warm light tone
   
   // Status
-  success: '#2E7D32',
-  warning: '#F9A825',
-  error: '#C62828',
-  info: '#1565C0',
+  success: '#4A7C59',
+  warning: '#C9956C',
+  error: '#8B4A4A',
+  info: '#5B7899',
 };
 
-const tintColorLight = BrandColors.gold;
-const tintColorDark = BrandColors.gold;
+const tintColorLight = BrandColors.primary;
+const tintColorDark = BrandColors.white;
 
 export const Colors = {
   light: {
-    text: BrandColors.primary,
+    text: BrandColors.primaryDark,
     textSecondary: BrandColors.gray,
     background: BrandColors.white,
-    backgroundSecondary: BrandColors.offWhite,
+    backgroundSecondary: BrandColors.cream,
     tint: tintColorLight,
-    icon: BrandColors.darkGray,
-    tabIconDefault: BrandColors.gray,
-    tabIconSelected: BrandColors.gold,
+    icon: BrandColors.primary,
+    tabIconDefault: BrandColors.tan,
+    tabIconSelected: BrandColors.primary,
     card: BrandColors.white,
     border: BrandColors.lightGray,
-    primary: BrandColors.gold,
-    primaryDark: BrandColors.goldDark,
+    primary: BrandColors.primary,
+    primaryDark: BrandColors.primaryDark,
   },
   dark: {
     text: BrandColors.white,
@@ -62,13 +75,13 @@ export const Colors = {
     background: BrandColors.primaryDark,
     backgroundSecondary: BrandColors.primary,
     tint: tintColorDark,
-    icon: BrandColors.lightGray,
-    tabIconDefault: BrandColors.gray,
-    tabIconSelected: BrandColors.gold,
-    card: BrandColors.charcoal,
-    border: BrandColors.darkGray,
-    primary: BrandColors.gold,
-    primaryDark: BrandColors.goldDark,
+    icon: BrandColors.white,
+    tabIconDefault: BrandColors.tan,
+    tabIconSelected: BrandColors.white,
+    card: BrandColors.primary,
+    border: BrandColors.coffee,
+    primary: BrandColors.white,
+    primaryDark: BrandColors.cream,
   },
 };
 

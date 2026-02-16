@@ -26,7 +26,7 @@ export const PromiseCard: React.FC<PromiseCardProps> = ({ icon, title, descripti
       accessibilityLabel={`${title}: ${description}`}
     >
       <View style={styles.iconContainer}>
-        <Ionicons name={icon} size={28} color={BrandColors.gold} />
+        <Ionicons name={icon} size={28} color={BrandColors.primary} />
       </View>
       <View style={styles.content}>
         <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   stat: {
     fontSize: FontSizes.md,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.primary,
     marginTop: Spacing.xs,
   },
 });

@@ -133,7 +133,7 @@ const ContactScreen = () => {
                   accessibilityLabel={`${info.title}: ${info.value}`}
                 >
                   <View style={styles.contactIconContainer}>
-                    <Ionicons name={info.icon} size={24} color={BrandColors.gold} />
+                    <Ionicons name={info.icon} size={24} color={BrandColors.primary} />
                   </View>
                   <Text style={[styles.contactTitle, { color: colors.text }]}>
                     {info.title}
@@ -141,7 +141,7 @@ const ContactScreen = () => {
                   <Text
                     style={[
                       styles.contactValue,
-                      { color: info.action ? BrandColors.gold : colors.textSecondary },
+                      { color: info.action ? BrandColors.primary : colors.textSecondary },
                     ]}
                   >
                     {info.value}
@@ -272,7 +272,7 @@ const ContactScreen = () => {
                 style={[styles.faqItem, { backgroundColor: colors.card, borderColor: colors.border }]}
               >
                 <View style={styles.faqQuestion}>
-                  <Ionicons name="help-circle" size={20} color={BrandColors.gold} />
+                  <Ionicons name="help-circle" size={20} color={BrandColors.primary} />
                   <Text style={[styles.faqQuestionText, { color: colors.text }]}>
                     {faq.question}
                   </Text>

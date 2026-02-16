@@ -1,13 +1,13 @@
+import { BorderRadius, BrandColors, FontSizes, FontWeights, Spacing } from '@/constants/theme';
 import React from 'react';
 import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
   ActivityIndicator,
-  ViewStyle,
+  StyleSheet,
+  Text,
   TextStyle,
+  TouchableOpacity,
+  ViewStyle,
 } from 'react-native';
-import { BrandColors, BorderRadius, FontSizes, FontWeights, Spacing } from '@/constants/theme';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -56,19 +56,19 @@ export const Button: React.FC<ButtonProps> = ({
       case 'primary':
         return {
           ...baseStyle,
-          backgroundColor: disabled ? BrandColors.gray : BrandColors.gold,
+          backgroundColor: disabled ? BrandColors.tan : BrandColors.primary,
         };
       case 'secondary':
         return {
           ...baseStyle,
-          backgroundColor: disabled ? BrandColors.lightGray : BrandColors.primary,
+          backgroundColor: disabled ? BrandColors.lightGray : BrandColors.charcoal,
         };
       case 'outline':
         return {
           ...baseStyle,
           backgroundColor: 'transparent',
           borderWidth: 2,
-          borderColor: disabled ? BrandColors.gray : BrandColors.gold,
+          borderColor: disabled ? BrandColors.tan : BrandColors.primary,
         };
       case 'ghost':
         return {
@@ -88,13 +88,13 @@ export const Button: React.FC<ButtonProps> = ({
 
     switch (variant) {
       case 'primary':
-        return { ...baseTextStyle, color: BrandColors.primary };
+        return { ...baseTextStyle, color: BrandColors.white };
       case 'secondary':
         return { ...baseTextStyle, color: BrandColors.white };
       case 'outline':
-        return { ...baseTextStyle, color: disabled ? BrandColors.gray : BrandColors.gold };
+        return { ...baseTextStyle, color: disabled ? BrandColors.tan : BrandColors.primary };
       case 'ghost':
-        return { ...baseTextStyle, color: disabled ? BrandColors.gray : BrandColors.gold };
+        return { ...baseTextStyle, color: disabled ? BrandColors.tan : BrandColors.primary };
       default:
         return baseTextStyle;
     }
@@ -112,7 +112,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {loading ? (
         <ActivityIndicator
-          color={variant === 'primary' ? BrandColors.primary : BrandColors.gold}
+          color={BrandColors.white}
           size="small"
         />
       ) : (
@@ -130,29 +130,29 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
   },
   size_sm: {
-    paddingVertical: 6,
-    paddingHorizontal: Spacing.md,
+    paddingVertical: 4,
+    paddingHorizontal: Spacing.sm,
   },
   size_md: {
-    paddingVertical: 10,
-    paddingHorizontal: Spacing.lg,
+    paddingVertical: 8,
+    paddingHorizontal: Spacing.md,
   },
   size_lg: {
-    paddingVertical: 12,
-    paddingHorizontal: Spacing.xl,
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.lg,
   },
   text: {
     fontWeight: FontWeights.bold,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 0.5,
   },
   text_sm: {
-    fontSize: FontSizes.sm,
+    fontSize: FontSizes.xs,
   },
   text_md: {
-    fontSize: FontSizes.md,
+    fontSize: FontSizes.sm,
   },
   text_lg: {
-    fontSize: FontSizes.lg,
+    fontSize: FontSizes.md,
   },
 });

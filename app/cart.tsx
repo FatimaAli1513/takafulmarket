@@ -115,7 +115,7 @@ const CartScreen = () => {
   const renderEmptyCart = () => (
     <View style={styles.emptyContainer}>
       <View style={styles.emptyIconContainer}>
-        <Ionicons name="bag-outline" size={80} color={BrandColors.gold} />
+        <Ionicons name="bag-outline" size={80} color={BrandColors.primary} />
       </View>
       <Text style={[styles.emptyTitle, { color: colors.text }]}>Your Cart is Empty</Text>
       <Text style={[styles.emptySubtitle, { color: colors.textSecondary }]}>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: FontSizes.lg,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.primary,
   },
   discountBadge: {
     backgroundColor: BrandColors.burgundy,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   totalValue: {
     fontSize: FontSizes.xl,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.primary,
   },
 });
 

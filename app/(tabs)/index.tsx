@@ -1,50 +1,47 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  StatusBar,
-  Dimensions,
-  Modal,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import React, { useState } from 'react';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/ui/Button';
-import { FeatureCard } from '@/components/ui/FeatureCard';
 import { CollectionCard } from '@/components/ui/CollectionCard';
+import { FeatureCard } from '@/components/ui/FeatureCard';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { SectionHeader } from '@/components/ui/SectionHeader';
 import { PromiseCard } from '@/components/ui/PromiseCard';
+import { SectionHeader } from '@/components/ui/SectionHeader';
 import {
+  BRAND_PROMISES,
+  COLLECTIONS,
+  FEATURES,
+  getBestsellers,
+  getNewArrivals,
+} from '@/constants/data';
+import {
+  BorderRadius,
   BrandColors,
   Colors,
   FontSizes,
   FontWeights,
-  Spacing,
-  BorderRadius,
   Shadows,
+  Spacing,
 } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import {
-  FEATURES,
-  COLLECTIONS,
-  getBestsellers,
-  getNewArrivals,
-  BRAND_PROMISES,
-} from '@/constants/data';
 import { useCart } from '@/context/CartContext';
-
-const { width } = Dimensions.get('window');
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 const HomeScreen = () => {
   const colorScheme = useColorScheme();
@@ -164,7 +161,7 @@ const HomeScreen = () => {
                 title="Shop Now"
                 onPress={handleShopNow}
                 variant="primary"
-                size="lg"
+                size="md"
               />
             </View>
           </LinearGradient>
@@ -248,7 +245,7 @@ const HomeScreen = () => {
             style={styles.aboutGradient}
           >
             <Text style={styles.aboutQuote}>
-              "Crafted with Passion,{'\n'}Worn with Pride"
+              {'"Crafted with Passion,\nWorn with Pride"'}
             </Text>
             <Text style={styles.aboutText}>
               At <Text style={styles.aboutBrand}>Takaful Market</Text>, we believe that
@@ -315,7 +312,7 @@ const HomeScreen = () => {
         {/* CTA Section */}
         <View style={styles.ctaSection}>
           <LinearGradient
-            colors={[BrandColors.gold, BrandColors.goldDark]}
+            colors={[BrandColors.primary, BrandColors.primaryDark]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.ctaGradient}
@@ -328,7 +325,7 @@ const HomeScreen = () => {
               title="Shop Collection Now"
               onPress={handleShopNow}
               variant="secondary"
-              size="lg"
+              size="md"
             />
           </LinearGradient>
         </View>
@@ -336,8 +333,8 @@ const HomeScreen = () => {
         {/* Footer */}
         <View style={styles.footer}>
           <View style={styles.footerLogo}>
-            <View style={[styles.logoIcon, { backgroundColor: BrandColors.gold }]}>
-              <Text style={[styles.logoText, { color: BrandColors.primary }]}>TM</Text>
+            <View style={[styles.logoIcon, { backgroundColor: BrandColors.primary }]}>
+              <Text style={[styles.logoText, { color: BrandColors.white }]}>TM</Text>
             </View>
             <Text style={styles.footerBrand}>TakafulMarket</Text>
           </View>
@@ -357,7 +354,7 @@ const HomeScreen = () => {
         accessibilityLabel="Contact Us"
         accessibilityRole="button"
       >
-        <Ionicons name="chatbubble-ellipses" size={28} color={BrandColors.primary} />
+        <Ionicons name="chatbubble-ellipses" size={28} color={BrandColors.white} />
       </TouchableOpacity>
 
       {/* Contact Form Modal */}
@@ -470,7 +467,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: BorderRadius.md,
-    backgroundColor: BrandColors.gold,
+    backgroundColor: BrandColors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: Spacing.sm,
@@ -478,14 +475,14 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: FontSizes.lg,
     fontWeight: FontWeights.bold,
-    color: BrandColors.primary,
+    color: BrandColors.white,
   },
   brandName: {
     fontSize: FontSizes.xl,
     fontWeight: FontWeights.bold,
   },
   brandAccent: {
-    color: BrandColors.gold,
+    color: BrandColors.amber,
   },
   iconButton: {
     width: 44,
@@ -579,18 +576,18 @@ const styles = StyleSheet.create({
   aboutQuote: {
     fontSize: FontSizes.xxl,
     fontWeight: FontWeights.bold,
-    color: BrandColors.gold,
+    color: BrandColors.amber,
     marginBottom: Spacing.lg,
     fontStyle: 'italic',
   },
   aboutText: {
     fontSize: FontSizes.md,
-    color: BrandColors.lightGray,
+    color: BrandColors.cream,
     lineHeight: 24,
     marginBottom: Spacing.md,
   },
   aboutBrand: {
-    color: BrandColors.gold,
+    color: BrandColors.amber,
     fontWeight: FontWeights.bold,
   },
   promisesContainer: {
@@ -607,16 +604,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ctaTitle: {
-    fontSize: FontSizes.xxxl,
+    fontSize: FontSizes.xxl,
     fontWeight: FontWeights.bold,
-    color: BrandColors.primary,
+    color: BrandColors.white,
     textAlign: 'center',
     marginBottom: Spacing.sm,
   },
   ctaSubtitle: {
     fontSize: FontSizes.md,
-    color: BrandColors.charcoal,
-    marginBottom: Spacing.lg,
+    color: BrandColors.cream,
+    marginBottom: Spacing.md,
   },
   footer: {
     alignItems: 'center',
@@ -651,7 +648,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: BrandColors.gold,
+    backgroundColor: BrandColors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     ...Shadows.lg,
