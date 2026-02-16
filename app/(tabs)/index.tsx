@@ -381,7 +381,7 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <ScrollView 
+            <ScrollView
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: Spacing.xl }}
             >
