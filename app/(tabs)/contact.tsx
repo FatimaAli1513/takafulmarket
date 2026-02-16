@@ -37,18 +37,18 @@ const CONTACT_INFO: ContactInfo[] = [
   {
     icon: 'location-outline',
     title: 'Address',
-    value: 'Karachi, Pakistan',
+    value: 'Pakistan',
   },
   {
     icon: 'mail-outline',
     title: 'Email',
-    value: 'support@takafulmarket.site',
+    value: 'Bilalmuhammad987868@gmail.com',
     action: 'email',
   },
   {
     icon: 'call-outline',
     title: 'Phone',
-    value: '+92 300 1234567',
+    value: '+92 320 5919383',
     action: 'phone',
   },
   {
@@ -217,7 +217,7 @@ const ContactScreen = () => {
                     styles.input,
                     { backgroundColor: colors.background, color: colors.text, borderColor: colors.border },
                   ]}
-                  placeholder="+92 300 1234567"
+                  placeholder="+92 320 5919383"
                   placeholderTextColor={colors.textSecondary}
                   value={formData.phone}
                   onChangeText={(value) => handleInputChange('phone', value)}
@@ -308,7 +308,7 @@ const ContactScreen = () => {
           </View>
 
           {/* Footer Spacing */}
-          <View style={{ height: Spacing.xxl }} />
+          <View style={{ height: 120 }} />
         </ScrollView>
       </KeyboardAvoidingView>
     </View>

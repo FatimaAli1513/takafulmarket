@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   },
   productsGrid: {
     paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.xxl,
+    paddingBottom: 120,
   },
   productRow: {
     justifyContent: 'space-between',

@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     color: BrandColors.white,
   },
   scrollContent: {
-    paddingBottom: Spacing.xxl,
+    paddingBottom: 120,
   },
   heroSection: {
     height: 450,
