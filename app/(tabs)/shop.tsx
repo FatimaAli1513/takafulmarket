@@ -1,33 +1,32 @@
-import React, { useState, useMemo } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-  Alert,
-  StatusBar,
-} from 'react-native';
-import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
-
-import { Button } from '@/components/ui/Button';
+import React, { useMemo, useState } from 'react';
 import {
+  Alert,
+  Dimensions,
+  FlatList,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { CATEGORIES, Product, getProductsByCategory } from '@/constants/data';
+import {
+  BorderRadius,
   BrandColors,
   Colors,
   FontSizes,
   FontWeights,
-  Spacing,
-  BorderRadius,
   Shadows,
+  Spacing,
 } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { PRODUCTS, CATEGORIES, Product, getProductsByCategory } from '@/constants/data';
 import { useCart } from '@/context/CartContext';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - Spacing.lg * 3) / 2;
@@ -88,12 +87,12 @@ const ShopScreen = () => {
         <Ionicons
           name={category.icon as any}
           size={20}
-          color={isSelected ? BrandColors.primary : colors.textSecondary}
+          color={isSelected ? BrandColors.white : colors.textSecondary}
         />
         <Text
           style={[
             styles.categoryText,
-            { color: isSelected ? BrandColors.primary : colors.text },
+            { color: isSelected ? BrandColors.white : colors.text },
           ]}
         >
           {category.name}
@@ -162,11 +161,14 @@ const ShopScreen = () => {
           <View style={styles.priceRow}>
             <View>
               <Text style={styles.price}>Rs. {item.price.toLocaleString()}</Text>
-              {item.originalPrice && (
+              {item.originalPrice ? (
                 <Text style={[styles.originalPrice, { color: colors.textSecondary }]}>
                   Rs. {item.originalPrice.toLocaleString()}
                 </Text>
-              )}
+              ) :
+                <Text style={[styles.originalPrice, { color: colors.textSecondary }]}>
+                </Text>
+              }
             </View>
           </View>
 
@@ -220,10 +222,7 @@ const ShopScreen = () => {
         <Text style={[styles.resultsCount, { color: colors.textSecondary }]}>
           {filteredProducts.length} Products
         </Text>
-        <TouchableOpacity style={styles.sortButton}>
-          <Text style={[styles.sortText, { color: colors.text }]}>Sort by</Text>
-          <Ionicons name="chevron-down" size={16} color={colors.text} />
-        </TouchableOpacity>
+
       </View>
 
       {/* Products Grid */}
@@ -364,7 +363,7 @@ const styles = StyleSheet.create({
   newBadgeText: {
     fontSize: FontSizes.xs,
     fontWeight: FontWeights.bold,
-    color: BrandColors.primary,
+    color: BrandColors.white,
   },
   discountBadge: {
     position: 'absolute',
