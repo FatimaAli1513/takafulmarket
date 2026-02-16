@@ -61,7 +61,6 @@ const ShopScreen = () => {
 
   const handleAddToCart = (productId: string) => {
     addToCart(productId);
-    Alert.alert('Success', 'Product added to cart!');
   };
 
   const handleOpenCart = () => {
@@ -428,7 +427,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: BrandColors.gold,
-    paddingVertical: Spacing.sm,
+    paddingVertical: 6,
     borderRadius: BorderRadius.md,
     gap: Spacing.xs,
   },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,10 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
+  Modal,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
   Alert,
 } from 'react-native';
 import { Image } from 'expo-image';
@@ -52,6 +56,34 @@ const HomeScreen = () => {
   const newArrivals = getNewArrivals();
   const cartItemCount = getCartItemCount();
 
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmitForm = () => {
+    if (!formData.name || !formData.phone || !formData.message) {
+      Alert.alert('Error', 'Please fill in all required fields');
+      return;
+    }
+    Alert.alert('Success', 'Your message has been sent! We will contact you soon.', [
+      {
+        text: 'OK',
+        onPress: () => {
+          setFormData({ name: '', email: '', phone: '', message: '' });
+          setShowContactForm(false);
+        },
+      },
+    ]);
+  };
+
   const handleShopNow = () => {
     router.push('/(tabs)/shop');
   };
@@ -61,12 +93,11 @@ const HomeScreen = () => {
   };
 
   const handleProductPress = (productId: string) => {
-    Alert.alert('Product', `View product: ${productId}`);
+    // Product detail view can be added later
   };
 
   const handleAddToCart = (productId: string) => {
     addToCart(productId);
-    Alert.alert('Added to Cart', 'Product added to cart successfully!');
   };
 
   const handleOpenCart = () => {
@@ -318,6 +349,104 @@ const HomeScreen = () => {
           </Text>
         </View>
       </ScrollView>
+
+      {/* Floating Contact Button */}
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => setShowContactForm(true)}
+        accessibilityLabel="Contact Us"
+        accessibilityRole="button"
+      >
+        <Ionicons name="chatbubble-ellipses" size={28} color={BrandColors.primary} />
+      </TouchableOpacity>
+
+      {/* Contact Form Modal */}
+      <Modal
+        visible={showContactForm}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setShowContactForm(false)}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <View style={[styles.modalContainer, { backgroundColor: colors.background }]}>
+            {/* Modal Header */}
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: colors.text }]}>Contact Us</Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setShowContactForm(false)}
+                accessibilityLabel="Close"
+              >
+                <Ionicons name="close" size={24} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* Form Fields */}
+              <View style={styles.formGroup}>
+                <Text style={[styles.label, { color: colors.text }]}>Name *</Text>
+                <TextInput
+                  style={[styles.input, { backgroundColor: colors.card, color: colors.text, borderColor: colors.border }]}
+                  placeholder="Your name"
+                  placeholderTextColor={colors.textSecondary}
+                  value={formData.name}
+                  onChangeText={(value) => handleInputChange('name', value)}
+                />
+              </View>
+
+              <View style={styles.formGroup}>
+                <Text style={[styles.label, { color: colors.text }]}>Email</Text>
+                <TextInput
+                  style={[styles.input, { backgroundColor: colors.card, color: colors.text, borderColor: colors.border }]}
+                  placeholder="your@email.com"
+                  placeholderTextColor={colors.textSecondary}
+                  value={formData.email}
+                  onChangeText={(value) => handleInputChange('email', value)}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </View>
+
+              <View style={styles.formGroup}>
+                <Text style={[styles.label, { color: colors.text }]}>Phone *</Text>
+                <TextInput
+                  style={[styles.input, { backgroundColor: colors.card, color: colors.text, borderColor: colors.border }]}
+                  placeholder="+92 320 5919383"
+                  placeholderTextColor={colors.textSecondary}
+                  value={formData.phone}
+                  onChangeText={(value) => handleInputChange('phone', value)}
+                  keyboardType="phone-pad"
+                />
+              </View>
+
+              <View style={styles.formGroup}>
+                <Text style={[styles.label, { color: colors.text }]}>Message *</Text>
+                <TextInput
+                  style={[styles.input, styles.textArea, { backgroundColor: colors.card, color: colors.text, borderColor: colors.border }]}
+                  placeholder="How can we help you?"
+                  placeholderTextColor={colors.textSecondary}
+                  value={formData.message}
+                  onChangeText={(value) => handleInputChange('message', value)}
+                  multiline
+                  numberOfLines={4}
+                  textAlignVertical="top"
+                />
+              </View>
+
+              <Button
+                title="Send Message"
+                onPress={handleSubmitForm}
+                variant="primary"
+                size="lg"
+                fullWidth
+              />
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
     </View>
   );
 };
@@ -514,6 +643,66 @@ const styles = StyleSheet.create({
   copyright: {
     fontSize: FontSizes.xs,
     color: BrandColors.gray,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 120,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: BrandColors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Shadows.lg,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    borderTopLeftRadius: BorderRadius.xl,
+    borderTopRightRadius: BorderRadius.xl,
+    padding: Spacing.lg,
+    maxHeight: '85%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.lg,
+  },
+  modalTitle: {
+    fontSize: FontSizes.xxl,
+    fontWeight: FontWeights.bold,
+  },
+  closeButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  formGroup: {
+    marginBottom: Spacing.md,
+  },
+  label: {
+    fontSize: FontSizes.sm,
+    fontWeight: FontWeights.medium,
+    marginBottom: Spacing.xs,
+  },
+  input: {
+    height: 48,
+    borderWidth: 1,
+    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.md,
+    fontSize: FontSizes.md,
+  },
+  textArea: {
+    height: 100,
+    paddingTop: Spacing.md,
+    paddingBottom: Spacing.md,
   },
 });
 

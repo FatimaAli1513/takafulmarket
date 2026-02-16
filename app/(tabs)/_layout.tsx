@@ -86,16 +86,13 @@ export default function TabLayout() {
           ),
         }}
       />
+      {/* Hide Contact and Explore tabs */}
       <Tabs.Screen
         name="contact"
         options={{
-          title: 'Contact',
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon name="mail" color={color} focused={focused} />
-          ),
+          href: null,
         }}
       />
-      {/* Hide the explore tab */}
       <Tabs.Screen
         name="explore"
         options={{

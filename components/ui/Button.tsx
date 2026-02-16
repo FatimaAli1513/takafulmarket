@@ -130,15 +130,15 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
   },
   size_sm: {
-    paddingVertical: Spacing.sm,
+    paddingVertical: 6,
     paddingHorizontal: Spacing.md,
   },
   size_md: {
-    paddingVertical: Spacing.md,
+    paddingVertical: 10,
     paddingHorizontal: Spacing.lg,
   },
   size_lg: {
-    paddingVertical: Spacing.lg,
+    paddingVertical: 12,
     paddingHorizontal: Spacing.xl,
   },
   text: {
