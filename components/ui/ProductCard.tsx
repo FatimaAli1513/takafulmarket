@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { BrandColors, BorderRadius, FontSizes, FontWeights, Spacing, Shadows, Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -93,12 +94,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </View>
 
           <TouchableOpacity
-            style={styles.addButton}
             onPress={handleAddToCart}
             accessibilityLabel="Add to cart"
             accessibilityRole="button"
+            activeOpacity={0.8}
+            style={styles.addButtonWrap}
           >
-            <Ionicons name="bag-add" size={20} color={BrandColors.white} />
+            <LinearGradient
+              colors={[BrandColors.primary, BrandColors.charcoal]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.addButton}
+            >
+              <Ionicons name="bag-add" size={20} color={BrandColors.white} />
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
@@ -183,11 +192,15 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.xs,
     textDecorationLine: 'line-through',
   },
+  addButtonWrap: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    ...Shadows.sm,
+  },
   addButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: BrandColors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },

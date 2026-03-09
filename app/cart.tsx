@@ -1,6 +1,7 @@
 import * as Linking from 'expo-linking';
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
+  AppState,
   View,
   Text,
   StyleSheet,
@@ -9,6 +10,7 @@ import {
   StatusBar,
   Alert,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,6 +35,18 @@ const CartScreen = () => {
   const colors = Colors[colorScheme ?? 'light'];
   const insets = useSafeAreaInsets();
   const { cartItems, isLoading, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
+  const checkoutEmailOpenedRef = useRef(false);
+  const [showClearModal, setShowClearModal] = useState(false);
+
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (nextState) => {
+      if (nextState === 'active' && checkoutEmailOpenedRef.current) {
+        checkoutEmailOpenedRef.current = false;
+        clearCart();
+      }
+    });
+    return () => sub.remove();
+  }, [clearCart]);
 
   const handleGoBack = () => {
     router.back();
@@ -53,6 +67,7 @@ const CartScreen = () => {
     const mailtoUrl = `mailto:${ORDER_EMAIL}?subject=${subject}&body=${bodyEncoded}`;
     try {
       await Linking.openURL(mailtoUrl);
+      checkoutEmailOpenedRef.current = true;
     } catch {
       Alert.alert('Error', `Please email your order to ${ORDER_EMAIL}`);
     }
@@ -153,12 +168,7 @@ const CartScreen = () => {
         <View style={styles.headerRight}>
           {cartItems.length > 0 && (
             <TouchableOpacity
-              onPress={() =>
-                Alert.alert('Clear Cart', 'Are you sure you want to clear all items?', [
-                  { text: 'Cancel', style: 'cancel' },
-                  { text: 'Clear', style: 'destructive', onPress: clearCart },
-                ])
-              }
+              onPress={() => setShowClearModal(true)}
               accessibilityLabel="Clear cart"
             >
               <Text style={styles.clearText}>Clear</Text>
@@ -180,8 +190,12 @@ const CartScreen = () => {
             data={cartItems}
             renderItem={renderCartItem}
             keyExtractor={(item) => item.product.id}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
+            style={styles.cartList}
+            contentContainerStyle={[
+              styles.listContent,
+              { paddingBottom: 220 + insets.bottom },
+            ]}
+            showsVerticalScrollIndicator={true}
           />
 
           {/* Summary Section */}
@@ -222,6 +236,48 @@ const CartScreen = () => {
           </View>
         </>
       )}
+
+      {/* Clear Cart Modal */}
+      <Modal
+        visible={showClearModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowClearModal(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowClearModal(false)}
+        >
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}
+            style={[styles.clearModalCard, { backgroundColor: BrandColors.primary }]}
+          >
+            <Text style={styles.clearModalTitle}>Clear Cart</Text>
+            <Text style={styles.clearModalText}>
+              Are you sure you want to clear all items from your cart?
+            </Text>
+            <View style={styles.clearModalActions}>
+              <TouchableOpacity
+                style={styles.clearModalCancelBtn}
+                onPress={() => setShowClearModal(false)}
+              >
+                <Text style={styles.clearModalCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.clearModalConfirmBtn}
+                onPress={() => {
+                  clearCart();
+                  setShowClearModal(false);
+                }}
+              >
+                <Text style={styles.clearModalConfirmText}>Clear</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
@@ -257,9 +313,11 @@ const styles = StyleSheet.create({
     color: BrandColors.burgundy,
     fontWeight: FontWeights.semibold,
   },
+  cartList: {
+    flex: 1,
+  },
   listContent: {
     padding: Spacing.lg,
-    paddingBottom: 200,
   },
   cartItem: {
     flexDirection: 'row',
@@ -383,7 +441,7 @@ const styles = StyleSheet.create({
   freeText: {
     fontSize: FontSizes.md,
     fontWeight: FontWeights.bold,
-    color: BrandColors.success,
+    color: BrandColors.primary,
   },
   divider: {
     height: 1,
@@ -395,6 +453,57 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     fontSize: FontSizes.xl,
+    fontWeight: FontWeights.bold,
+    color: BrandColors.primary,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Spacing.lg,
+  },
+  clearModalCard: {
+    width: '100%',
+    maxWidth: 360,
+    borderRadius: BorderRadius.xl,
+    padding: Spacing.xl,
+    ...Shadows.lg,
+  },
+  clearModalTitle: {
+    fontSize: FontSizes.xl,
+    fontWeight: FontWeights.bold,
+    color: BrandColors.white,
+    marginBottom: Spacing.md,
+  },
+  clearModalText: {
+    fontSize: FontSizes.md,
+    color: BrandColors.cream,
+    lineHeight: 22,
+    marginBottom: Spacing.xl,
+  },
+  clearModalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: Spacing.md,
+  },
+  clearModalCancelBtn: {
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.lg,
+  },
+  clearModalCancelText: {
+    fontSize: FontSizes.md,
+    fontWeight: FontWeights.semibold,
+    color: BrandColors.cream,
+  },
+  clearModalConfirmBtn: {
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.lg,
+    backgroundColor: BrandColors.cream,
+    borderRadius: BorderRadius.md,
+  },
+  clearModalConfirmText: {
+    fontSize: FontSizes.md,
     fontWeight: FontWeights.bold,
     color: BrandColors.primary,
   },

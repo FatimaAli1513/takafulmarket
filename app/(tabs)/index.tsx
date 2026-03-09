@@ -352,18 +352,12 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.footerBrand}>TakafulMarket</Text>
           </View>
-          <Text style={styles.footerText}>
-            Crafted with ❤️ in Pakistan
-          </Text>
-          <Text style={styles.copyright}>
-            © 2026 TakafulMarket. All rights reserved.
-          </Text>
         </View>
       </ScrollView>
 
       {/* Floating Contact Button */}
       <TouchableOpacity
-        style={[styles.fab, { bottom: insets.bottom + 110 }]}
+        style={[styles.fab, { bottom: insets.bottom + 90 }]}
         onPress={() => {
           setShowContactForm(true);
           setContactModalOpen(true);

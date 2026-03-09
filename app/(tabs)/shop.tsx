@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
@@ -174,12 +175,20 @@ const ShopScreen = () => {
           </View>
 
           <TouchableOpacity
-            style={styles.addToCartButton}
             onPress={() => handleAddToCart(item.id)}
             accessibilityLabel="Add to cart"
+            activeOpacity={0.8}
+            style={styles.addToCartButtonWrap}
           >
-            <Ionicons name="bag-add-outline" size={16} color={BrandColors.white} />
-            <Text style={styles.addToCartText}>Add to Cart</Text>
+            <LinearGradient
+              colors={[BrandColors.primary, BrandColors.charcoal]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.addToCartButton}
+            >
+              <Ionicons name="bag-add-outline" size={16} color={BrandColors.white} />
+              <Text style={styles.addToCartText}>Add to Cart</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -285,10 +294,18 @@ const ShopScreen = () => {
                     <Text style={styles.productModalCancelText}>Cancel</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.productModalAddBtn}
                     onPress={() => handleAddToCartFromModal(selectedProduct.id)}
+                    activeOpacity={0.8}
+                    style={styles.productModalAddBtnWrap}
                   >
-                    <Text style={styles.productModalAddText}>Add to Cart</Text>
+                    <LinearGradient
+                      colors={[BrandColors.primary, BrandColors.charcoal]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={styles.productModalAddBtn}
+                    >
+                      <Text style={styles.productModalAddText}>Add to Cart</Text>
+                    </LinearGradient>
                   </TouchableOpacity>
                 </View>
               </>
@@ -474,11 +491,15 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.xs,
     textDecorationLine: 'line-through',
   },
+  addToCartButtonWrap: {
+    borderRadius: BorderRadius.md,
+    overflow: 'hidden',
+    ...Shadows.sm,
+  },
   addToCartButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: BrandColors.primary,
     paddingVertical: 6,
     borderRadius: BorderRadius.md,
     gap: Spacing.xs,
@@ -547,6 +568,11 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
     marginTop: Spacing.xl,
   },
+  productModalAddBtnWrap: {
+    borderRadius: BorderRadius.md,
+    overflow: 'hidden',
+    ...Shadows.sm,
+  },
   productModalCancelBtn: {
     paddingVertical: Spacing.sm,
     paddingHorizontal: Spacing.lg,
@@ -559,13 +585,12 @@ const styles = StyleSheet.create({
   productModalAddBtn: {
     paddingVertical: Spacing.sm,
     paddingHorizontal: Spacing.lg,
-    backgroundColor: BrandColors.cream,
     borderRadius: BorderRadius.md,
   },
   productModalAddText: {
     fontSize: FontSizes.md,
     fontWeight: FontWeights.bold,
-    color: BrandColors.primary,
+    color: BrandColors.white,
   },
 });
 

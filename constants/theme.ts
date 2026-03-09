@@ -48,7 +48,7 @@ export const BrandColors = {
   success: '#4A7C59',
   warning: '#C9956C',
   error: '#8B4A4A',
-  info: '#5B7899',
+  info: '#6B6B61',         // Warm gray-brown (replaced blue)
 };
 
 const tintColorLight = BrandColors.primary;

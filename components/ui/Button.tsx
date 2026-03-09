@@ -1,4 +1,5 @@
-import { BorderRadius, BrandColors, FontSizes, FontWeights, Spacing } from '@/constants/theme';
+import { BorderRadius, BrandColors, FontSizes, FontWeights, Shadows, Spacing } from '@/constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -6,8 +7,11 @@ import {
   Text,
   TextStyle,
   TouchableOpacity,
+  View,
   ViewStyle,
 } from 'react-native';
+
+const PRIMARY_GRADIENT = [BrandColors.primary, BrandColors.charcoal] as const;
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -100,6 +104,35 @@ export const Button: React.FC<ButtonProps> = ({
     }
   };
 
+  const buttonContent = loading ? (
+    <ActivityIndicator color={BrandColors.white} size="small" />
+  ) : (
+    <Text style={[getTextStyle(), textStyle]}>{title}</Text>
+  );
+
+  if (variant === 'primary' && !disabled) {
+    return (
+      <TouchableOpacity
+        onPress={handlePress}
+        disabled={loading}
+        activeOpacity={0.8}
+        accessibilityLabel={accessibilityLabel || title}
+        accessibilityRole="button"
+        accessibilityState={{ disabled: loading }}
+        style={[styles.gradientWrapper, fullWidth && styles.gradientFullWidth, style]}
+      >
+        <LinearGradient
+          colors={PRIMARY_GRADIENT}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.base, styles[`size_${size}`], fullWidth && styles.fullWidth]}
+        >
+          {buttonContent}
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <TouchableOpacity
       style={[getButtonStyle(), style]}
@@ -110,19 +143,23 @@ export const Button: React.FC<ButtonProps> = ({
       accessibilityRole="button"
       accessibilityState={{ disabled: disabled || loading }}
     >
-      {loading ? (
-        <ActivityIndicator
-          color={BrandColors.white}
-          size="small"
-        />
-      ) : (
-        <Text style={[getTextStyle(), textStyle]}>{title}</Text>
-      )}
+      {buttonContent}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  gradientWrapper: {
+    borderRadius: BorderRadius.md,
+    overflow: 'hidden',
+    ...Shadows.sm,
+  },
+  gradientFullWidth: {
+    width: '100%',
+  },
+  fullWidth: {
+    width: '100%',
+  },
   base: {
     flexDirection: 'row',
     alignItems: 'center',
