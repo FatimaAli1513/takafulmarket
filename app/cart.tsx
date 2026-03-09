@@ -1,3 +1,4 @@
+import * as Linking from 'expo-linking';
 import React from 'react';
 import {
   View,
@@ -37,20 +38,24 @@ const CartScreen = () => {
     router.back();
   };
 
-  const handleCheckout = () => {
-    Alert.alert(
-      'Order Placed!',
-      `Your order of Rs. ${getCartTotal().toLocaleString()} has been placed successfully!`,
-      [
-        {
-          text: 'OK',
-          onPress: () => {
-            clearCart();
-            router.back();
-          },
-        },
-      ]
-    );
+  const ORDER_EMAIL = 'bilalmuhammad987868@gmail.com';
+
+  const handleCheckout = async () => {
+    const orderDetails = cartItems
+      .map(
+        (item) =>
+          `• ${item.product.name} x ${item.quantity} = Rs. ${(item.product.price * item.quantity).toLocaleString()}`
+      )
+      .join('\n');
+    const body = `Order Details:\n\n${orderDetails}\n\nTotal: Rs. ${getCartTotal().toLocaleString()}\n\nPlease confirm this order.`;
+    const subject = encodeURIComponent('Takaful Market - Order');
+    const bodyEncoded = encodeURIComponent(body);
+    const mailtoUrl = `mailto:${ORDER_EMAIL}?subject=${subject}&body=${bodyEncoded}`;
+    try {
+      await Linking.openURL(mailtoUrl);
+    } catch {
+      Alert.alert('Error', `Please email your order to ${ORDER_EMAIL}`);
+    }
   };
 
   const handleQuantityChange = (productId: string, change: number, currentQty: number) => {
@@ -180,7 +185,16 @@ const CartScreen = () => {
           />
 
           {/* Summary Section */}
-          <View style={[styles.summaryContainer, { backgroundColor: colors.card }, Shadows.lg]}>
+          <View
+            style={[
+              styles.summaryContainer,
+              {
+                backgroundColor: colors.card,
+                paddingBottom: Spacing.lg + insets.bottom + Spacing.xl,
+              },
+              Shadows.lg,
+            ]}
+          >
             <View style={styles.summaryRow}>
               <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>
                 Items ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
@@ -350,6 +364,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: Spacing.lg,
+    paddingBottom: Spacing.xl,
     borderTopLeftRadius: BorderRadius.xl,
     borderTopRightRadius: BorderRadius.xl,
   },
