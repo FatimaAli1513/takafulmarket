@@ -1,13 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Linking from 'expo-linking';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Alert,
-  KeyboardAvoidingView,
   Modal,
-  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -41,6 +40,8 @@ import {
   Spacing,
 } from '@/constants/theme';
 import { useCart } from '@/context/CartContext';
+import { useContactModal } from '@/context/ContactModalContext';
+import { useKeyboard } from '@/context/KeyboardContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 const HomeScreen = () => {
@@ -48,6 +49,8 @@ const HomeScreen = () => {
   const colors = Colors[colorScheme ?? 'light'];
   const insets = useSafeAreaInsets();
   const { addToCart, getCartItemCount } = useCart();
+  const { setContactModalOpen } = useContactModal();
+  const { keyboardHeight } = useKeyboard();
 
   const bestsellers = getBestsellers();
   const newArrivals = getNewArrivals();
@@ -65,20 +68,31 @@ const HomeScreen = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmitForm = () => {
+  const CONTACT_EMAIL = 'bilalmuhammad987868@gmail.com';
+  const isFormValid =
+    formData.name.trim() !== '' &&
+    formData.phone.trim() !== '' &&
+    formData.message.trim() !== '';
+
+  const handleSubmitForm = async () => {
     if (!formData.name || !formData.phone || !formData.message) {
       Alert.alert('Error', 'Please fill in all required fields');
       return;
     }
-    Alert.alert('Success', 'Your message has been sent! We will contact you soon.', [
-      {
-        text: 'OK',
-        onPress: () => {
-          setFormData({ name: '', email: '', phone: '', message: '' });
-          setShowContactForm(false);
-        },
-      },
-    ]);
+    const subject = encodeURIComponent('Takaful Market - Contact Form');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email || 'N/A'}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
+    );
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    try {
+      await Linking.openURL(mailtoUrl);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      setShowContactForm(false);
+      setContactModalOpen(false);
+      Alert.alert('Success', 'Email app opened. Send the message to contact us.');
+    } catch {
+      Alert.alert('Error', `Please email us at ${CONTACT_EMAIL}`);
+    }
   };
 
   const handleShopNow = () => {
@@ -350,7 +364,10 @@ const HomeScreen = () => {
       {/* Floating Contact Button */}
       <TouchableOpacity
         style={[styles.fab, { bottom: insets.bottom + 110 }]}
-        onPress={() => setShowContactForm(true)}
+        onPress={() => {
+          setShowContactForm(true);
+          setContactModalOpen(true);
+        }}
         accessibilityLabel="Contact Us"
         accessibilityRole="button"
       >
@@ -362,19 +379,30 @@ const HomeScreen = () => {
         visible={showContactForm}
         animationType="slide"
         transparent
-        onRequestClose={() => setShowContactForm(false)}
+        onRequestClose={() => {
+          setShowContactForm(false);
+          setContactModalOpen(false);
+        }}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.modalOverlay}
-        >
-          <View style={[styles.modalContainer, { backgroundColor: colors.background, paddingBottom: insets.bottom + Spacing.lg }]}>
+        <View style={styles.modalOverlay}>
+          <View
+            style={[
+              styles.modalContainer,
+              {
+                backgroundColor: colors.background,
+                paddingBottom: insets.bottom + Spacing.lg + keyboardHeight,
+              },
+            ]}
+          >
             {/* Modal Header */}
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: colors.text }]}>Contact Us</Text>
               <TouchableOpacity
                 style={styles.closeButton}
-                onPress={() => setShowContactForm(false)}
+                onPress={() => {
+                  setShowContactForm(false);
+                  setContactModalOpen(false);
+                }}
                 accessibilityLabel="Close"
               >
                 <Ionicons name="close" size={24} color={colors.text} />
@@ -442,10 +470,11 @@ const HomeScreen = () => {
                 variant="primary"
                 size="lg"
                 fullWidth
+                disabled={!isFormValid}
               />
             </ScrollView>
           </View>
-        </KeyboardAvoidingView>
+        </View>
       </Modal>
     </View>
   );

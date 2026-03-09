@@ -3,9 +3,9 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
-  Alert,
   Dimensions,
   FlatList,
+  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -38,6 +38,7 @@ const ShopScreen = () => {
   const { addToCart, getCartItemCount } = useCart();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const filteredProducts = useMemo(() => {
     return getProductsByCategory(selectedCategory as Product['category'] | 'all');
@@ -48,14 +49,14 @@ const ShopScreen = () => {
   };
 
   const handleProductPress = (product: Product) => {
-    Alert.alert(
-      product.name,
-      `Price: Rs. ${product.price.toLocaleString()}\n\n${product.description}\n\nFeatures:\n${product.features.join('\n• ')}`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Add to Cart', onPress: () => handleAddToCart(product.id) },
-      ]
-    );
+    setSelectedProduct(product);
+  };
+
+  const closeProductModal = () => setSelectedProduct(null);
+
+  const handleAddToCartFromModal = (productId: string) => {
+    handleAddToCart(productId);
+    closeProductModal();
   };
 
   const handleAddToCart = (productId: string) => {
@@ -243,6 +244,58 @@ const ShopScreen = () => {
           </View>
         }
       />
+
+      {/* Product Detail Modal */}
+      <Modal
+        visible={selectedProduct !== null}
+        transparent
+        animationType="fade"
+        onRequestClose={closeProductModal}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={closeProductModal}
+        >
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}
+            style={[styles.productModalCard, { backgroundColor: BrandColors.primary }]}
+          >
+            {selectedProduct && (
+              <>
+                <Text style={styles.productModalTitle}>{selectedProduct.name}</Text>
+                <Text style={styles.productModalPrice}>
+                  Price: Rs. {selectedProduct.price.toLocaleString()}
+                </Text>
+                <Text style={styles.productModalDescription}>
+                  {selectedProduct.description}
+                </Text>
+                <Text style={styles.productModalFeaturesTitle}>Features:</Text>
+                {selectedProduct.features.map((f, i) => (
+                  <Text key={i} style={styles.productModalFeature}>
+                    • {f}
+                  </Text>
+                ))}
+                <View style={styles.productModalActions}>
+                  <TouchableOpacity
+                    style={styles.productModalCancelBtn}
+                    onPress={closeProductModal}
+                  >
+                    <Text style={styles.productModalCancelText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.productModalAddBtn}
+                    onPress={() => handleAddToCartFromModal(selectedProduct.id)}
+                  >
+                    <Text style={styles.productModalAddText}>Add to Cart</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
@@ -444,6 +497,75 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FontSizes.lg,
     marginTop: Spacing.md,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Spacing.lg,
+  },
+  productModalCard: {
+    width: '100%',
+    maxWidth: 360,
+    borderRadius: BorderRadius.xl,
+    padding: Spacing.xl,
+    ...Shadows.lg,
+  },
+  productModalTitle: {
+    fontSize: FontSizes.xl,
+    fontWeight: FontWeights.bold,
+    color: BrandColors.white,
+    marginBottom: Spacing.sm,
+  },
+  productModalPrice: {
+    fontSize: FontSizes.lg,
+    fontWeight: FontWeights.semibold,
+    color: BrandColors.cream,
+    marginBottom: Spacing.md,
+  },
+  productModalDescription: {
+    fontSize: FontSizes.md,
+    color: BrandColors.cream,
+    marginBottom: Spacing.md,
+    lineHeight: 22,
+  },
+  productModalFeaturesTitle: {
+    fontSize: FontSizes.sm,
+    fontWeight: FontWeights.semibold,
+    color: BrandColors.white,
+    marginBottom: Spacing.xs,
+  },
+  productModalFeature: {
+    fontSize: FontSizes.sm,
+    color: BrandColors.cream,
+    marginBottom: 2,
+  },
+  productModalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: Spacing.md,
+    marginTop: Spacing.xl,
+  },
+  productModalCancelBtn: {
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.lg,
+  },
+  productModalCancelText: {
+    fontSize: FontSizes.md,
+    fontWeight: FontWeights.semibold,
+    color: BrandColors.cream,
+  },
+  productModalAddBtn: {
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.lg,
+    backgroundColor: BrandColors.cream,
+    borderRadius: BorderRadius.md,
+  },
+  productModalAddText: {
+    fontSize: FontSizes.md,
+    fontWeight: FontWeights.bold,
+    color: BrandColors.primary,
   },
 });
 

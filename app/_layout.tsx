@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { CartProvider } from '@/context/CartContext';
+import { ContactModalProvider } from '@/context/ContactModalContext';
+import { KeyboardProvider } from '@/context/KeyboardContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export const unstable_settings = {
@@ -15,6 +17,8 @@ export default function RootLayout() {
 
   return (
     <CartProvider>
+      <KeyboardProvider>
+      <ContactModalProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -22,6 +26,8 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
+      </ContactModalProvider>
+      </KeyboardProvider>
     </CartProvider>
   );
 }

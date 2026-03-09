@@ -4,6 +4,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
+import { useContactModal } from '@/context/ContactModalContext';
+import { useKeyboard } from '@/context/KeyboardContext';
 import { BrandColors, Colors, Shadows } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
@@ -28,6 +30,28 @@ const TabIcon: React.FC<TabIconProps> = ({ name, color, focused }) => {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
+  const { isKeyboardVisible } = useKeyboard();
+  const { isContactModalOpen } = useContactModal();
+  const hideTabBar = isKeyboardVisible || isContactModalOpen;
+
+  const tabBarStyle = {
+    ...(hideTabBar && { display: 'none' as const }),
+    backgroundColor: colors.background,
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
+    borderRadius: 32,
+    marginHorizontal: 24,
+    marginBottom: 24,
+    height: 70,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingHorizontal: 8,
+    position: 'absolute' as const,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    ...Shadows.lg,
+  };
 
   return (
     <Tabs
@@ -36,23 +60,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: colors.tabIconDefault,
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.border,
-          borderTopWidth: 1,
-          borderRadius: 32,
-          marginHorizontal: 24,
-          marginBottom: 24,
-          height: 70,
-          paddingTop: 12,
-          paddingBottom: 12,
-          paddingHorizontal: 8,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          ...Shadows.lg,
-        },
+        tabBarStyle,
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '600',
