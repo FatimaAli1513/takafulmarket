@@ -133,12 +133,6 @@ const ShopScreen = () => {
               <Text style={styles.discountText}>-{discount}%</Text>
             </View>
           )}
-          <TouchableOpacity
-            style={styles.wishlistButton}
-            accessibilityLabel="Add to wishlist"
-          >
-            <Ionicons name="heart-outline" size={20} color={BrandColors.white} />
-          </TouchableOpacity>
         </View>
 
         <View style={styles.productContent}>
@@ -162,10 +156,10 @@ const ShopScreen = () => {
 
           <View style={styles.priceRow}>
             <View>
-              <Text style={styles.price}>Rs. {item.price.toLocaleString()}</Text>
+              <Text style={styles.price}>{item.price.toLocaleString()}</Text>
               {item.originalPrice ? (
                 <Text style={[styles.originalPrice, { color: colors.textSecondary }]}>
-                  Rs. {item.originalPrice.toLocaleString()}
+                  {item.originalPrice.toLocaleString()}
                 </Text>
               ) :
                 <Text style={[styles.originalPrice, { color: colors.textSecondary }]}>
@@ -448,17 +442,6 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.xs,
     fontWeight: FontWeights.bold,
     color: BrandColors.white,
-  },
-  wishlistButton: {
-    position: 'absolute',
-    bottom: Spacing.sm,
-    right: Spacing.sm,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   productContent: {
     padding: Spacing.md,

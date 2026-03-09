@@ -85,10 +85,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <View style={styles.priceRow}>
           <View>
-            <Text style={styles.price}>Rs. {price.toLocaleString()}</Text>
+            <Text style={styles.price}>{price.toLocaleString()}</Text>
             {originalPrice && (
               <Text style={[styles.originalPrice, { color: colors.textSecondary }]}>
-                Rs. {originalPrice.toLocaleString()}
+                {originalPrice.toLocaleString()}
               </Text>
             )}
           </View>
