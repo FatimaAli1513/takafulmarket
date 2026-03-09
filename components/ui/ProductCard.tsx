@@ -84,8 +84,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </View>
 
         <View style={styles.priceRow}>
-          <View>
-            <Text style={styles.price}>{price.toLocaleString()}</Text>
+          <View style={styles.priceContainer}>
+            <Text style={[styles.price, { color: colors.text }]}>{price.toLocaleString()}</Text>
             {originalPrice && (
               <Text style={[styles.originalPrice, { color: colors.textSecondary }]}>
                 {originalPrice.toLocaleString()}
@@ -183,10 +183,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
+  priceContainer: {
+    flex: 1,
+    minWidth: 0,
+  },
   price: {
     fontSize: FontSizes.md,
     fontWeight: FontWeights.bold,
-    color: BrandColors.primary,
   },
   originalPrice: {
     fontSize: FontSizes.xs,
