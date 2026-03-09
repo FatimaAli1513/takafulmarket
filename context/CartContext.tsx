@@ -1,13 +1,22 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import * as FileSystem from 'expo-file-system';
 import { PRODUCTS, Product } from '@/constants/data';
+
+const CART_FILE = `${FileSystem.documentDirectory}takafulmarket_cart.json`;
 
 interface CartItem {
   product: Product;
   quantity: number;
 }
 
+interface StoredCartItem {
+  productId: string;
+  quantity: number;
+}
+
 interface CartContextType {
   cartItems: CartItem[];
+  isLoading: boolean;
   addToCart: (productId: string) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -20,6 +29,44 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const saveCartToStorage = useCallback(async (items: CartItem[]) => {
+    const toStore: StoredCartItem[] = items.map(({ product, quantity }) => ({
+      productId: product.id,
+      quantity,
+    }));
+    await FileSystem.writeAsStringAsync(CART_FILE, JSON.stringify(toStore));
+  }, []);
+
+  useEffect(() => {
+    const loadCart = async () => {
+      try {
+        const stored = await FileSystem.readAsStringAsync(CART_FILE);
+        if (stored) {
+          const parsed: StoredCartItem[] = JSON.parse(stored);
+          const items: CartItem[] = parsed
+            .map(({ productId, quantity }) => {
+              const product = PRODUCTS.find((p) => p.id === productId);
+              return product ? { product, quantity } : null;
+            })
+            .filter((item): item is CartItem => item !== null);
+          setCartItems(items);
+        }
+      } catch (e) {
+        // ignore parse/storage errors
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadCart();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      saveCartToStorage(cartItems);
+    }
+  }, [cartItems, isLoading, saveCartToStorage]);
 
   const addToCart = (productId: string) => {
     const product = PRODUCTS.find((p) => p.id === productId);
@@ -73,6 +120,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     <CartContext.Provider
       value={{
         cartItems,
+        isLoading,
         addToCart,
         removeFromCart,
         updateQuantity,

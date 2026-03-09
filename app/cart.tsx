@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,7 +31,7 @@ const CartScreen = () => {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const insets = useSafeAreaInsets();
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
+  const { cartItems, isLoading, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
 
   const handleGoBack = () => {
     router.back();
@@ -161,7 +162,11 @@ const CartScreen = () => {
         </View>
       </View>
 
-      {cartItems.length === 0 ? (
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={BrandColors.primary} />
+        </View>
+      ) : cartItems.length === 0 ? (
         renderEmptyCart()
       ) : (
         <>
@@ -306,6 +311,11 @@ const styles = StyleSheet.create({
   removeButton: {
     width: 40,
     height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
