@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { PRODUCTS, Product } from '@/constants/data';
 
 const CART_FILE = `${FileSystem.documentDirectory}takafulmarket_cart.json`;
